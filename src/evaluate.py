@@ -150,11 +150,12 @@ def plot_all_training_histories(candidates, save_path):
 
     for idx, c in enumerate(candidates):
         history = c.get("history")
-        if history is None:
+        if not history:
             continue
 
-        val_loss = history.get("val_loss")
-        if val_loss is None:
+        # history is a list of epoch dicts
+        val_loss = [h["val_loss"] for h in history if "val_loss" in h]
+        if not val_loss:
             continue
 
         cfg = c["config"]
