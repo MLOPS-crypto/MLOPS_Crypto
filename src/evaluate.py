@@ -227,6 +227,38 @@ def main():
         plots_folder / "confusion_matrix.png"
     )
 
+    def plot_all_training_histories(candidates, save_path):
+        plt.figure(figsize=(14, 7))
+
+        for idx, c in enumerate(candidates):
+            history = c.get("history")
+            if history is None:
+                continue
+
+            val_loss = history.get("val_loss")
+            if val_loss is None:
+                continue
+
+            cfg = c["config"]
+            label = (
+                f"{idx+1}: batch={cfg['batch_size']}, "
+                f"lookback={cfg['lookback']}, "
+                f"lstm={cfg['lstm_units']}, "
+                f"lr={cfg['learning_rate']}"
+            )
+
+        plt.plot(val_loss, linewidth=1, marker="o", label=label)
+
+    plt.xlabel("Epoch")
+    plt.ylabel("Val Loss")
+    plt.title("Validation Loss per Hyperparameter Configuration")
+    plt.grid(True)
+    plt.legend(fontsize=7, ncol=2, loc="upper right")
+    plt.tight_layout()
+    plt.savefig(save_path)
+    plt.close()
+
+
     # ============================================================
     # HPO ANALYSIS
     # ============================================================
@@ -286,6 +318,13 @@ def main():
         plt.title("Learning Rate vs MAE")
         plt.grid(True)
         fig.savefig(hpo_plots / "scatter_lr_mae.png")
+
+        # 4) TRAINING CONVERGENCE (ALL CONFIGS)
+        plot_all_training_histories(
+            candidates,
+            hpo_plots / "training_convergence_all_configs.png"
+        )
+
 
     print("Evaluation finished. Saved at:", evaluation_folder.absolute())
 
