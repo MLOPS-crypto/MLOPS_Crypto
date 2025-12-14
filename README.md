@@ -45,26 +45,6 @@ All experiment outputs (logs, metrics, artifacts) are made available through **G
 
 ---
 
-## Repository Structure
-
-```
-MLOPS_Crypto/
-├── .github/workflows/     # GitHub Actions pipelines (core of the project)
-├── configs/               # YAML configs for hyperparameters and experiments
-├── data/                  # Data references or sample data
-├── evaluation/            # Model evaluation logic
-├── src/                    # Training and pipeline source code
-├── tests/                  # Unit and integration tests
-├── Dockerfile              # Runtime environment for Vertex AI jobs
-├── Makefile                # Local pipeline test utilities
-├── requirements.txt
-├── run.py
-├── setup.py
-└── README.md
-```
-
----
-
 ## Configuration (YAML)
 
 The project relies on **YAML configuration files** to control:
@@ -112,11 +92,6 @@ It exists only to:
 * Run **local pipeline tests**
 * Validate code before pushing changes
 
-Example:
-
-```bash
-make test
-```
 
 ---
 
